@@ -1,8 +1,8 @@
 ## Notice
 
-1.you need npm install first
-2.than you need install crypto yourselft
-3.use npm run dev to run this project
+* you need npm install first
+* than you need install crypto yourselft
+* use npm run dev to run this project
 
 **This Project is based on vue-element-admin**
 
