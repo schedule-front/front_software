@@ -1,0 +1,6 @@
+Activity Apply :
+
+Bottom : 所有 / 未审批
+List Element : 名称 / 日期 / 发起人 / Status => Detail
+Detail : New Webpage : 基于创建修改
+
