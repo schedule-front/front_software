@@ -1,12 +1,14 @@
 <template>
   <div class="club-container">
     <div class="club-container-box">
-      <div class="a-div">
-        <div class="title_name" style="margin-top: 6px;">奖项名称：</div>
+
+      <el-form ref="data" :rules="rules" :model="data" label-width="500px">
+
+      <el-form-item  style="margin-top: 30px;" label="奖项名称：" prop="title" label-width="80px;">
         <el-input v-model="data.title" placeholder="" class="a-input1" />
-      </div>
-      <div class="a-div">
-        <div class="title_name" style="margin-top: 6px;">获得时间：</div>
+      </el-form-item>
+
+      <el-form-item style="margin-top: 10px;" label="获得时间：" prop="date" label-width="80px;" required>
         <div class="block">
           <el-date-picker
             v-model="data.date"
@@ -16,9 +18,11 @@
             value-format="timestamp"
           />
         </div>
-      </div>
+      </el-form-item>
 
-      <el-button style="margin-top: 10px; margin-left: 450px" @click.native.prevent="createForm">提交</el-button>
+      </el-form>
+
+      <el-button style="margin-top: 10px; margin-left: 450px" @click.native.prevent="createForm('data')">提交</el-button>
     </div>
     <div class="club-container-title" style="margin-top: 10px; margin-left: 400px">增加奖项</div>
   </div>
@@ -36,6 +40,12 @@ export default {
       data: {
         title: '',
         date: ''
+      },
+      rules: {
+        title: [{ required: true, message: '请输入内容', trigger: 'blur' }],
+        date: [
+          { type: 'date', required: true, message: '请选择日期和时间', trigger: 'change' }
+        ]
       }
     }
   }, computed: {
@@ -55,11 +65,23 @@ export default {
     setAId(id) {
       this.data.associationId = id
     },
-    createForm() {
-      addAward(this.data)
+    createForm(formName) {
+       this.$refs[formName].validate((valid) => {
+          if (valid) {
+            addAward(this.data)
+            this.$message({
+              message: '发布成功',
+              type: 'success'
+            });
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
     }
   }
 }
+
 </script>
 
 <style lang="scss" scoped>
@@ -85,11 +107,11 @@ export default {
       height: 85px;
     }
     .a-input1{
-      width: 150px;
+      width: 800px;
       float: left;
     }
     .a-input2{
-      width: 80%;
+      width: 100%;
       float: left;
     }
 

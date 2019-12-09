@@ -1,8 +1,10 @@
 <template>
   <div class="club-container">
     <div class="club-container-box">
-      <div class="b-div-1">
-        <div class="title_name" style="margin-top: 6px;">活动名称：</div>
+
+      <el-form ref="data" :rules="rules" :model="data" label-width="500px">
+
+      <el-form-item style="margin-top: 30px;" label="活动名称：" prop="title" label-width="80px;">
         <el-input
           v-model="data.title"
           type="textarea"
@@ -10,9 +12,9 @@
           placeholder="活动名称"
           class="a-input2"
         />
-      </div>
-      <div class="b-div">
-        <div class="title_name" style="margin-top: 6px;">活动简介：</div>
+      </el-form-item>
+
+      <el-form-item style="margin-top: 10px;" label="活动简介：" prop="content" label-width="80px;">
         <el-input
           v-model="data.content"
           type="textarea"
@@ -20,9 +22,9 @@
           placeholder="活动简介"
           class="a-input2"
         />
-      </div>
-      <div class="a-div">
-        <div class="title_name" style="margin-top: 6px;">开始时间：</div>
+      </el-form-item>
+
+      <el-form-item style="margin-top: 10px;" label="开始时间：" prop="date" label-width="80px;" required>
         <div class="block">
           <el-date-picker
             v-model="data.beginDate"
@@ -32,9 +34,9 @@
             value-format="timestamp">
           </el-date-picker>
         </div>
-      </div>
-      <div class="a-div">
-        <div class="title_name" style="margin-top: 6px;">结束时间：</div>
+      </el-form-item>
+
+      <el-form-item style="margin-top: 10px;" label="结束时间：" prop="date" label-width="80px;" required>
         <div class="block">
           <el-date-picker
             v-model="data.endDate"
@@ -44,17 +46,18 @@
             value-format="timestamp">
           </el-date-picker>
         </div>
-      </div>
-      <div class="a-div">
-        <div class="title_name" style="margin-top: 6px;">活动地点：</div>
-        <el-input v-model="data.location" placeholder="地点" class="a-input1" />
-      </div>
-      <div class="a-div">
-        <div class="title_name" style="margin-top: 6px;">活动人数：</div>
-        <el-input v-model="data.numPeople" placeholder="人数" class="a-input1" />
-      </div>
+      </el-form-item>
 
-      <el-button style="margin-top: 10px; margin-left: 400px;" @click.native.prevent="createForm" @click="open2()">提交</el-button>
+      <el-form-item style="margin-top: 10px;" label="活动地点：" prop="location" label-width="80px;">
+        <el-input v-model="data.location" placeholder="地点" class="a-input1" />
+      </el-form-item>
+      <el-form-item style="margin-top: 10px;" label="活动人数：" prop="numPeople" label-width="80px;">
+        <el-input v-model="data.numPeople" placeholder="人数" class="a-input1" />
+      </el-form-item>
+
+      </el-form>
+
+      <el-button style="margin-top: 10px; margin-left: 400px;" @click.native.prevent="createForm('data')">提交</el-button>
     </div>
     <div class="club-container-title" style="margin-top: 2px; margin-left: 400px;">申请表</div>
   </div>
@@ -78,6 +81,18 @@ export default {
         numPeople: '',
         location: '',
         userId:'',
+      },
+      rules: {
+        title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
+        content: [{ required: true, message: '请输入内容', trigger: 'blur' }],
+        beginDate: [
+          { type: 'date', required: true, message: '请选择开始时间', trigger: 'change' }
+        ],
+        endDate: [
+          { type: 'date', required: true, message: '请选择结束时间', trigger: 'change' }
+        ],
+        numPeople: [{ required: true, message: '请输入人数', trigger: 'blur' }],
+        location: [{ required: true, message: '请输入地点', trigger: 'blur' }]
       }
     }
   }, computed: {
@@ -98,17 +113,21 @@ export default {
       this.data.userId = this.userid
       this.data.associationId=this.presidentOf
     },
-    createForm() {
-      createActivity(this.data)
-    },
-    open2() {
-      this.$message({
-        message: '发布成功',
-        type: 'success'
-      });
+    createForm(formName) {
+      this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.data.date = new Date().get
+            createActivity(this.data)
+            this.$message({
+              message: '发布成功',
+              type: 'success'
+            });
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
     }
-
-
   }
 }
 </script>

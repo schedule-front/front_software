@@ -1,8 +1,9 @@
 <template>
   <div class="club-container">
     <div class="club-container-box">
-      <div class="b-div-1">
-        <div class="title_name" style="margin-top: 6px;">活动名称：</div>
+      <el-form ref="data" :rules="rules" :model="data" label-width="500px">
+
+       <el-form-item style="margin-top: 10px;" label="活动名称：" prop="title" label-width="80px;">
         <el-input
           v-model="data.title"
           type="textarea"
@@ -10,10 +11,9 @@
           placeholder="活动名称"
           class="a-input2"
         />
-      </div>
+       </el-form-item>
 
-      <div class="b-div">
-        <div class="title_name" style="margin-top: 6px;">活动简介：</div>
+      <el-form-item style="margin-top: 10px;" label="活动简介：" prop="content" label-width="80px;">
         <el-input
           v-model="data.content"
           type="textarea"
@@ -21,10 +21,9 @@
           placeholder="活动简介"
           class="a-input2"
         />
-      </div>
+      </el-form-item>
 
-      <div class="a-div">
-        <div class="title_name" style="margin-top: 6px;">活动时间：</div>
+      <el-form-item style="margin-top: 10px;" label="活动时间：" prop="date" label-width="80px;" required>
         <div class="block">
           <el-date-picker
             v-model="data.date"
@@ -34,9 +33,11 @@
             value-format="timestamp"
           />
         </div>
-      </div>
+      </el-form-item>
 
-      <el-button style="margin-top: 10px; margin-left: 450px" @click.native.prevent="createForm" @click="open2()">提交</el-button>
+      </el-form>
+
+      <el-button style="margin-top: 10px; margin-left: 420px" @click.native.prevent="createForm('data')">提交</el-button>
     </div>
     <div class="club-container-title" style="margin-left: 400px;">通知发布</div>
   </div>
@@ -57,6 +58,13 @@ export default {
         date: '',
         userId: '',
         associationId:''
+      },
+      rules: {
+        title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
+        content: [{ required: true, message: '请输入内容', trigger: 'blur' }],
+        date: [
+          { type: 'date', required: true, message: '请选择日期和时间', trigger: 'change' }
+        ],
       }
     }
   }, computed: {
@@ -79,16 +87,20 @@ export default {
     // setAssociationId(id) {
     //   this.data.associationId = id
     // },
-    createForm() {
-      addAnnouncement(this.data)
-    },
-    open2() {
-      this.$message({
-        message: '发布成功',
-        type: 'success'
-      });
+    createForm(formName) {
+       this.$refs[formName].validate((valid) => {
+          if (valid) {
+            addAnnouncement(this.data)
+            this.$message({
+              message: '发布成功',
+              type: 'success'
+            });
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
     }
-
   }
 }
 </script>

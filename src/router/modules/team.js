@@ -10,6 +10,7 @@ const teamRouter = {
   meta: {
     title: '社团管理',
     roles: 'president',
+    // roles: ['president' , 'admin'],
     icon: 'tree'
   },
   children: [

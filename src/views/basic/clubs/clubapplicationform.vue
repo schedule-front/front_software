@@ -1,6 +1,7 @@
 <template>
   <div class="club-container">
     <div class="club-container-box">
+      <el-form ref="data" :rules="rules" :model="data" label-width="500px">
       <!--    <div class="a-div">-->
       <!--      姓名：-->
       <!--      <el-input v-model="data.name" placeholder="姓名" class="a-input1" />-->
@@ -22,8 +23,7 @@
       <!--      联系方式：-->
       <!--      <el-input v-model="data.phone" placeholder="联系方式" class="a-input1" />-->
       <!--    </div>-->
-      <div class="b-div">
-        兴趣爱好：
+      <el-form-item  style="margin-top: 20px;" label="兴趣爱好：" prop="interests" label-width="80px;">
         <el-input
           v-model="data.interests"
           type="textarea"
@@ -31,9 +31,8 @@
           placeholder="兴趣爱好"
           class="a-input2"
         />
-      </div>
-      <div class="b-div">
-        获奖情况：
+      </el-form-item>
+      <el-form-item style="margin-top: 10px;" label="获奖情况：" prop="experiences" label-width="80px;">
         <el-input
           v-model="data.experiences"
           type="textarea"
@@ -41,9 +40,8 @@
           placeholder="获奖情况"
           class="a-input2"
         />
-      </div>
-      <div class="b-div">
-        申请理由：
+      </el-form-item>
+      <el-form-item style="margin-top: 10px;" label="申请理由：" prop="reason" label-width="80px;">
         <el-input
           v-model="data.reason"
           type="textarea"
@@ -51,11 +49,12 @@
           placeholder="申请理由"
           class="a-input2"
         />
-      </div>
+      </el-form-item>
 
+      </el-form>
     </div>
-    <div class="club-container-title">申请表</div>
-    <el-button @click.native.prevent="createForm">提交</el-button>
+    <div class="club-container-title" style="margin-left: 300px;">申请表</div>
+    <el-button @click.native.prevent="createForm('data')" style="margin-left: 320px;">提交</el-button>
   </div>
 
 </template>
@@ -74,6 +73,11 @@ export default {
         reason: '',
         associationId: '',
         date: ''
+      },
+      rules: {
+        interests: [{ required: true, message: '请输入兴趣爱好', trigger: 'blur' }],
+        experiences: [{ required: true, message: '如果没有，请填写【无】', trigger: 'blur' }],
+        reason:  [{  required: true, message: '请输入申请理由', trigger: 'blur' }],
       }
     }
   }, computed: {
@@ -98,13 +102,18 @@ export default {
     setAssociationId(id) {
       this.data.associationId = id
     },
-    createForm() {
-      this.data.date = new Date().get
-      createJoinForm(this.data)
+    createForm(formName) {
+      this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.data.date = new Date().get
+            createJoinForm(this.data)
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
     }
-
   }
-
 }
 </script>
 

@@ -4,7 +4,7 @@ export function addAward(data) {
   return request({
     url: '/award/add',
     method: 'post',
-    params: data
+    data
   })
 }
 

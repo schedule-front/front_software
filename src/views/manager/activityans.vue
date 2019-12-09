@@ -1,38 +1,38 @@
 <template>
   <div class="app-container">
     <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" label="活动编号" width="100">
+      <el-table-column align="center" label="活动编号" width="105">
         <template slot-scope="scope">
           <span>{{ scope.row.activityId }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="申请社团" width="150">
+      <el-table-column align="center" label="申请社团" width="160">
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="title" align="center" label="活动名称" width="180">
+      <el-table-column prop="title" align="center" label="活动名称" width="200">
         <template slot-scope="scope">
           <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
-            <el-table-column align="center" label="活动地点" width="150">
+            <el-table-column align="center" label="活动地点" width="180">
         <template slot-scope="scope">
           <span>{{ scope.row.location }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="开始时间" width="180">
+      <el-table-column align="center" label="开始时间" width="200">
         <template slot-scope="scope">
           <span>{{ scope.row.beginDate | formatDate }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="结束时间" width="180">
+      <el-table-column align="center" label="结束时间" width="200">
         <template slot-scope="scope">
           <span>{{ scope.row.endDate | formatDate  }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="状态" width="100">
+      <el-table-column align="center" label="状态" width="120">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">
             {{ scope.row.status | chinese }}
@@ -40,7 +40,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="详情" width="100">
+      <el-table-column align="center" label="详情" width="120">
         <template slot-scope="scope">
           <router-link :to="'/manager/activitycheck/'+ scope.row.activityId">
             <el-button type="primary" size="small" icon="el-icon-edit">
